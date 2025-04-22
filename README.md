@@ -1,15 +1,6 @@
 # Control_inventario_mvc
 
-# **¿Qué problemas resuelve?**
-
-- Permite llevar un control ordenado de los productos sin necesidad de hojas de Excel.  
-- Facilita agregar, consultar, actualizar y eliminar productos de manera rápida.  
-- Ayuda a realizar búsquedas de productos específicas por nombre o por rango de precios.  
-- Calcula el valor total del inventario de manera automática para control financiero.
-
----
-
-# **¿Qué puedes hacer con esta aplicación?**
+# **¿Qué puedes hacer?**
 
 - **Ver todos los productos** que están en el inventario.  
 - **Agregar nuevos productos** al inventario.  
@@ -21,7 +12,7 @@
 
 ---
 
-# **¿Cómo está estructurado el proyecto?**
+# **¿Cómo está estructurado?**
 
 **Arquitectura**  
 - **Modelo (modelo.py):** Se encarga de toda la conexión y operaciones en la base de datos MySQL.  
@@ -68,40 +59,7 @@ from controlador import ControladorInventario
 
 ---
 
-# **Pasos para ejecutar el proyecto**
-
-1. Instalar la librería `pyodbc`:
-```bash
-pip install pyodbc
-```
-
-2. Configurar la base de datos en MySQL:
-```sql
-CREATE DATABASE control_inventario;
-
-USE control_inventario;
-
-CREATE TABLE productos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    cantidad INT NOT NULL,
-    precio FLOAT NOT NULL
-);
-```
-
-3. Verificar que en `modelo.py` esté la configuración correcta de conexión:
-```python
-'DRIVER={MySQL ODBC 9.3 Unicode Driver};SERVER=localhost;DATABASE=control_inventario;UID=root;PWD=tu_contraseña'
-```
-
-4. Ejecutar el proyecto:
-```bash
-python main.py
-```
-
----
-
-# **Notas finales**
+# **Notas**
 
 - Todas las consultas SQL son parametrizadas para evitar inyección SQL.  
 - Se recomienda cerrar siempre las conexiones a la base de datos para evitar problemas de recursos.  
