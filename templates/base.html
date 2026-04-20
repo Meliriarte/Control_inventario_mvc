@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Control de Inventario{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <h1>Control de Inventario</h1>
+            </div>
+            {% if valor_total is defined %}
+            <div class="total-badge">
+                <span class="total-label">Valor Total</span>
+                <span class="total-amount">${{ "%.2f"|format(valor_total) }}</span>
+            </div>
+            {% endif %}
+        </header>
+
+        <nav class="nav">
+            <a href="/" class="nav-link {% if request.url.path == '/' %}active{% endif %}">
+                <span class="nav-icon">📋</span>
+                Inventario
+            </a>
+            <a href="/agregar" class="nav-link {% if request.url.path == '/agregar' %}active{% endif %}">
+                <span class="nav-icon">➕</span>
+                Agregar
+            </a>
+            <a href="/buscar" class="nav-link {% if request.url.path == '/buscar' %}active{% endif %}">
+                <span class="nav-icon">🔍</span>
+                Buscar
+            </a>
+            <a href="/filtrar" class="nav-link {% if request.url.path == '/filtrar' %}active{% endif %}">
+                <span class="nav-icon">💰</span>
+                Filtrar
+            </a>
+        </nav>
+
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <p>✨ Sistema de Control de Inventario - Neon Edition</p>
+        </footer>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

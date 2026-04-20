@@ -25,18 +25,18 @@ class VistaInventario:
     @staticmethod
     def solicitar_datos_producto():
         nombre = input("Ingrese el nombre del producto: ")
-        cantidad = int(input("Ingrese la cantidad del producto: "))
-        precio = float(input("Ingrese el precio del producto: "))
+        cantidad = VistaInventario._leer_numero_entero("Ingrese la cantidad del producto: ")
+        precio = VistaInventario._leer_numero_flotante("Ingrese el precio del producto: ")
         return nombre, cantidad, precio
 
     @staticmethod
     def solicitar_id_producto():
-        return int(input("Ingrese el ID del producto: "))
+        return VistaInventario._leer_numero_entero("Ingrese el ID del producto: ")
 
     @staticmethod
     def solicitar_datos_actualizacion():
-        cantidad = int(input("Ingrese la nueva cantidad: "))
-        precio = float(input("Ingrese el nuevo precio: "))
+        cantidad = VistaInventario._leer_numero_entero("Ingrese la nueva cantidad: ")
+        precio = VistaInventario._leer_numero_flotante("Ingrese el nuevo precio: ")
         return cantidad, precio
 
     @staticmethod
@@ -45,8 +45,8 @@ class VistaInventario:
 
     @staticmethod
     def solicitar_rango_precios():
-        precio_min = float(input("Ingrese el precio mínimo: "))
-        precio_max = float(input("Ingrese el precio máximo: "))
+        precio_min = VistaInventario._leer_numero_flotante("Ingrese el precio mínimo: ")
+        precio_max = VistaInventario._leer_numero_flotante("Ingrese el precio máximo: ")
         return precio_min, precio_max
 
     @staticmethod
@@ -56,3 +56,24 @@ class VistaInventario:
     @staticmethod
     def mostrar_mensaje(mensaje):
         print(mensaje)
+
+    @staticmethod
+    def _leer_numero_entero(mensaje):
+        while True:
+            try:
+                return int(input(mensaje))
+            except ValueError:
+                print("Error: Debe ingresar un número entero válido.")
+
+    @staticmethod
+    def _leer_numero_flotante(mensaje):
+        while True:
+            try:
+                return float(input(mensaje))
+            except ValueError:
+                print("Error: Debe ingresar un número válido.")
+
+    @staticmethod
+    def confirmar_accion(mensaje):
+        respuesta = input(f"{mensaje} (s/n): ").lower().strip()
+        return respuesta == 's'

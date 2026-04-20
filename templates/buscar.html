@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar Producto{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h2>🔍 Buscar Producto</h2>
+    <p class="subtitle">Encuentra productos por nombre</p>
+</div>
+
+<form method="get" class="search-form">
+    <div class="search-input-wrapper">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar por nombre..." class="search-input">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+{% if q %}
+    {% if productos %}
+    <div class="results-info">
+        <p>Se encontraron {{ productos|length }} resultado(s) para "<strong>{{ q }}</strong>"</p>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td class="id-cell">#{{ producto[0] }}</td>
+                    <td class="name-cell">{{ producto[1] }}</td>
+                    <td class="qty-cell">{{ producto[2] }}</td>
+                    <td class="price-cell">${{ "%.2f"|format(producto[3]) }}</td>
+                    <td class="actions-cell">
+                        <a href="/editar/{{ producto[0] }}" class="btn btn-edit">
+                            ✏️ Editar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3>Sin resultados</h3>
+        <p>No se encontraron productos para "<strong>{{ q }}</strong>"</p>
+    </div>
+    {% endif %}
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>Busca un producto</h3>
+    <p>Ingresa un nombre para buscar</p>
+</div>
+{% endif %}
+{% endblock %}

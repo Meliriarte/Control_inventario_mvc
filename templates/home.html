@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h2>📋 Productos en Inventario</h2>
+    <p class="subtitle">{{ productos|length }} producto(s) registrado(s)</p>
+</div>
+
+{% if productos %}
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td class="id-cell">#{{ producto[0] }}</td>
+                <td class="name-cell">{{ producto[1] }}</td>
+                <td class="qty-cell">{{ producto[2] }}</td>
+                <td class="price-cell">${{ "%.2f"|format(producto[3]) }}</td>
+                <td class="subtotal-cell">${{ "%.2f"|format(producto[2] * producto[3]) }}</td>
+                <td class="actions-cell">
+                    <a href="/editar/{{ producto[0] }}" class="btn btn-edit">
+                        ✏️ Editar
+                    </a>
+                    <form action="/eliminar/{{ producto[0] }}" method="post" class="form-delete">
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Eliminar {{ producto[1] }}?')">
+                            🗑️ Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">📦</div>
+    <h3>No hay productos</h3>
+    <p>Agrega tu primer producto para comenzar</p>
+    <a href="/agregar" class="btn btn-primary">
+        ➕ Agregar Producto
+    </a>
+</div>
+{% endif %}
+{% endblock %}
