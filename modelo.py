@@ -3,9 +3,11 @@ from psycopg2 import Error as PostgresError
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv()  # Carga .env local si existe
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL not set in environment")
 
 
 def _get_connection():

@@ -4,14 +4,28 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from modelo import ModeloInventario
 import os
+import logging
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv()  # Carga .env local si existe
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Lee del entorno del sistema (Render) o del .env local
+DATABASE_URL = os.getenv("DATABASE_URL")
+PORT = int(os.getenv("PORT", 8000))
+HOST = os.getenv("HOST", "0.0.0.0")
+
+logger.info(f"DATABASE_URL loaded: {'Yes' if DATABASE_URL else 'NO'}")
 
 app = FastAPI(title="Control de Inventario")
 
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+
+logger.info(f"Static dir: {static_dir}")
+logger.info(f"Templates dir: {templates_dir}")
 
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
@@ -19,6 +33,12 @@ if os.path.exists(static_dir):
 templates = Jinja2Templates(directory=templates_dir)
 
 modelo = ModeloInventario()
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Error: {exc}", exc_info=True)
+    return HTMLResponse(content=f"<h1>Error: {str(exc)}</h1>", status_code=500)
 
 
 @app.get("/", name="home")
@@ -109,4 +129,5 @@ async def mostrar_filtrar(request: Request, min_price: float = 0, max_price: flo
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    host = os.getenv("HOST", "0.0.0.0")
+    uvicorn.run(app, host=host, port=port)
